@@ -10,7 +10,7 @@ MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es
 - Leer datos suministrados por el usuario sea por GET o POST de forma insegura (input).
 - Contestar pedidos con datos en notación JSON (json).
 
-MOF es útil especialmente para hacer bosquejos de nuevas funcionalidades sin lidiar con bases de datos, modelos y sentencias SQL. Se puede usar dentro o fuera de un marco de trabajo aunque fuera del marco de trabajo se refiere a que no debe ser usada en producción. Consume malas prácticas en favor de prestar una funcionalidad sencilla al programador para la confección de bosquejos de código útiles para maquetar controladores o contestar pedidos de la interfaz frontal.
+MOF es útil especialmente para hacer bosquejos de nuevas funcionalidades sin lidiar con bases de datos, modelos y sentencias SQL. Se puede usar dentro o fuera de un marco de trabajo aunque fuera del marco de trabajo se refiere a que **no debe ser usado en producción**. Consume malas prácticas en favor de prestar una funcionalidad sencilla al programador para la confección de bosquejos de código útiles para maquetar controladores o contestar pedidos de la interfaz frontal.
 
 ## Ejemplos
 
@@ -57,4 +57,4 @@ json(array('status' => 'ok'));
 
 ## Tareas pendientes (que postergaré eternamente)
 
-- Documentar las funciones: MOF está pensada para el usuario desarrollador y el código es autosuficiente y muy corto. No requiere documentación.
+- Documentar: MOF está pensada para el usuario desarrollador y el código es autosuficiente, muy corto y extremadamente sencillo. No requiere documentación.
