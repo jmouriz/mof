@@ -1,17 +1,16 @@
-# mof
-Mockup Outside Framework
+# MOF
 
-MOF es un simple archivo PHP para que incluyas en tus proyectos en la etapa de fabricación de la maqueta. Incluye algunas funciones básicas que serán de utilidad para:
+MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es un pequeño archivo PHP (~3Kb) para que incluyas en tus proyectos en la etapa de fabricación de la maqueta. Incluye algunas funciones básicas que serán de utilidad para:
 
 - Encriptar y comparar contraseñas encriptadas de forma más o menos segura (password).
 - Escribir y leer estructuras de datos complejas en archivos (store/restore).
 - Autorizar y desautorizar usuarios (login/logout).
 - Verificar si un usuario está autorizado (logged).
 - Proteger las páginas con acceso restringido (protect).
-- Leer datos suministrados por el pedido del usuario sea por GET o POST (input).
-- Contestar pedidos con estructuras de datos a través de JSON (json).
+- Leer datos suministrados por el usuario sea por GET o POST de forma insegura (input).
+- Contestar pedidos con datos en notación JSON (json).
 
-MOF es útil especialmente para hacer bosquejos de nuevas funcionalidades sin lidiar con bases de datos, modelos, sentencias SQL. Se puede usar dentro o fuera de un marco de trabajo aunque fuera del marco de trabajo se refiere a que no debe ser usada en producción y es útil para escribir pequeños controladores. Consume malas prácticas en favor de prestar una funcionalidad sencilla para el maquetado rápido.
+MOF es útil especialmente para hacer bosquejos de nuevas funcionalidades sin lidiar con bases de datos, modelos y sentencias SQL. Se puede usar dentro o fuera de un marco de trabajo aunque fuera del marco de trabajo se refiere a que no debe ser usada en producción. Consume malas prácticas en favor de prestar una funcionalidad sencilla al programador para la confección de bosquejos de código útiles para maquetar controladores o contestar pedidos de la interfaz frontal.
 
 ## Ejemplos
 
@@ -55,3 +54,7 @@ store($users); // guardar la estructura de datos $users
 
 json(array('status' => 'ok'));
 ```
+
+## Tareas pendientes (que postergaré eternamente)
+
+- Documentar las funciones: MOF está pensada para el usuario desarrollador y el código es autosuficiente y muy corto. No requiere documentación.
