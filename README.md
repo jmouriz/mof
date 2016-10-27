@@ -26,6 +26,7 @@ restore($users); // leer la estructura de datos $users
 
 if (array_key_exists($email, $users)) {
    if (password($password, $users[$email]['password'])) { // comparar contraseñas cifradas
+      login($email); // iniciar sesión
       json(array('status' => 'authorized')); // contestar el pedido
    } else {
       json(array('status' => 'invalid-password')); // contestar el pedido
@@ -33,6 +34,14 @@ if (array_key_exists($email, $users)) {
 } else {
    json(array('status' => 'unknown-email')); // contestar el pedido
 }
+```
+
+### Cerrar la sesión
+
+```php
+require 'mof.php';
+
+logout();
 ```
 
 ### Editar datos de un usuario
