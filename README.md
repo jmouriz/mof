@@ -273,13 +273,13 @@ Restaura la estructura de `$variable` a partir del archivo con ese nombre o devu
 
 Obtiene `$variable` donde esté definida, sea GET o POST.
 
-### session() {
+### session()
 
-Devuelve el identificador de la sesión existente si existe, de lo contrario inicia una sesión nueva y devuelve el identificador recién generado.
+Devuelve el identificador de la sesión existente y si no existe crea una nueva y devuelve el identificador.
 
 ### protect()
 
-Verifica si el usuario tiene iniciada la sesión. De no ser así, sale inmediatamente.
+Verifica si el usuario tiene iniciada la sesión. De no ser así, termina el flujo inmediatamente.
 
 ### protect($location)
 
@@ -315,7 +315,7 @@ Escribe `$data` con la forma adecuada para mostrar.
 
 ### debug($data, true)
 
-Igual que `debug($data)` excepto que también corta inmediatamente el flujo del programa.
+Igual que `debug($data)` excepto que también termina el flujo inmediatamente.
 
 ### _log($message)
 
