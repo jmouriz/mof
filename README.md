@@ -137,7 +137,7 @@ Array
 )
 ```
 
-## Ejemplo de completo de un micrositio con inicio de sesión
+## Ejemplo de completo de un micrositio protegido con  inicio de sesión
 
 ### append.php (CLI)
 
@@ -201,7 +201,7 @@ if (array_key_exists($username, $users)) {
 
 ```php
 <?php
-require '../mof.php';
+require 'mof.php';
 
 logout('login.php');
 ?>
