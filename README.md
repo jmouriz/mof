@@ -291,7 +291,7 @@ Devuelve el usuario que inició la sesión o `false` si no inició ningún usuar
 
 ### login($email)
 
-Inicia la sesión para con el usuario $email.
+Inicia una sesión para el usuario $email.
 
 ### logout()
 
@@ -311,7 +311,7 @@ Redirige a `$location`.
 
 ### debug($data)
 
-Escribe `$data` con la forma adecuada para mostrar.
+Escribe `$data` con la forma adecuada para mostrar en el navegador.
 
 ### debug($data, true)
 
@@ -323,4 +323,4 @@ Escribe `$mensaje` en el archivo `logs/mof.log`.
 
 ### _log($variable, true)
 
-Igual que `_log($message)` excepto que en lugar de un mensaje escribe `$variable` formateada.
+Igual que `_log($message)` excepto que en lugar de un mensaje formatea y escribe `$variable`.
