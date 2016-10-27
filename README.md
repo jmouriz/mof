@@ -25,7 +25,7 @@ Dadas las contraseñas cifradas `$password` y `$hash`, las compara y devuelve `t
 
 ### filename($backtrace)
 
-Función de uso interno, intente no utilizarla.
+Función de uso interno usada por `store` y `restore` para determinar el nombre de archivo a partir del nombre de una variable, intente no utilizarla.
 
 ### store($variable)
 
