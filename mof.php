@@ -68,7 +68,7 @@ function session() {
    }
 }
 
-function protect($location = false) {
+function protect($location = null) {
    if (!logged()) {
       if ($location) {
          redirect($location);
@@ -88,7 +88,7 @@ function login($email) {
    $_SESSION['email'] = $email;
 }
 
-function logout($location = false) {
+function logout($location = null) {
    session();
    unset($_SESSION['email']);
    session_destroy();
@@ -123,7 +123,7 @@ function debug($data, $exit = false) {
 
 function _log($message, $dump = false) {
    $path = __DIR__;
-   $file = "$path/logs/site.log";
+   $file = "$path/logs/mof.log";
    $log = fopen($file, 'a') or die("¡No se pudo abrir el archivo $file!");
    $now = date('d/m/Y H:i:s');
    fwrite($log, $dump ? print_r($message, true) : "$now: $message\n");

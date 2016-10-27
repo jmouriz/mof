@@ -4,7 +4,7 @@ MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es
 
 - Cifrar y comparar contraseñas cifradas de forma más o menos segura (password).
 - Escribir y leer estructuras de datos complejas en archivos (store/restore).
-- Autorizar y desautorizar usuarios (login/logout).
+- Iniciar y cerrar sesión (login/logout).
 - Verificar si un usuario está autorizado (logged).
 - Proteger las páginas con acceso restringido (protect).
 - Leer datos suministrados por el usuario sea por GET o POST (input).
@@ -45,7 +45,7 @@ if (array_key_exists($email, $users)) {
 <?php
 require 'mof.php';
 
-logout(); // iniciar la sesión
+logout('goodbye.php'); // cerrar la sesión
 ?>
 ```
 
@@ -247,6 +247,80 @@ restore($users);
 </html>
 ```
 
-## Tareas pendientes (que postergaré eternamente)
+## Documentación
 
-- Documentar: MOF está pensada para el usuario desarrollador y el código es autosuficiente, muy corto y extremadamente sencillo. No requiere documentación.
+### password($password)
+
+Dada la contraseña plana `$password` la devuelve cifrada.
+
+### password($password, $hash)
+
+Dadas las contraseñas cifradas `$password` y `$hash`, las compara y devuelve `true` si son iguales o `false` en caso contrario.
+
+### filename($backtrace)
+
+Función de uso interno, intente no utilizarla.
+
+### store($variable)
+
+Guarda la estructura definida en `$variable` en un archivo con su mismo nombre y lo comprime. Por ejemplo, `store($users)` guarda `$users` en el archivo `database/users.dbz`
+
+### restore($variable)
+
+Restaura la estructura de `$variable` a partir del archivo con ese nombre o devuelve un arreglo vacío si el archivo no existe. Por ejemplo, `restore($users)` lee el archivo `database/users.dbz` y lo guarda en la variable `$users`.
+
+### input($variable)
+
+Obtiene `$variable` donde esté definida, sea GET o POST.
+
+### session() {
+
+Devuelve el identificador de la sesión existente si existe, de lo contrario inicia una sesión nueva y devuelve el identificador recién generado.
+
+### protect()
+
+Verifica si el usuario tiene iniciada la sesión. De no ser así, sale inmediatamente.
+
+### protect($location)
+
+Igual que `protect()` excepto que si no hay una sesión iniciada redirige a `$location`.
+
+### logged()
+
+Devuelve el usuario que inició la sesión o `false` si no inició ningún usuario.
+
+### login($email)
+
+Inicia la sesión para con el usuario $email.
+
+### logout()
+
+Cierra la sesión.
+
+### logout($location)
+
+Igual que `logout()` excepto que también redirige a `$location`.
+
+### json($data)
+
+Escribe `$data` en notación JSON con los encabezados correspondientes.
+
+### redirect($location)
+
+Redirige a `$location`.
+
+### debug($data)
+
+Escribe `$data` con la forma adecuada para mostrar.
+
+### debug($data, true)
+
+Igual que `debug($data)` excepto que también corta inmediatamente el flujo del programa.
+
+### _log($message)
+
+Escribe `$mensaje` en el archivo `logs/mof.log`.
+
+### _log($variable, true)
+
+Igual que `_log($message)` excepto que en lugar de un mensaje escribe `$variable` formateada.
