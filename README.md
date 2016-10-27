@@ -9,6 +9,7 @@ MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es
 - Proteger las páginas con acceso restringido (protect).
 - Leer datos suministrados por el usuario sea por GET o POST (input).
 - Contestar pedidos con datos en notación JSON (json).
+- Redireccionar (redirect).
 
 MOF contiene una serie de funciones mínimas de jugete útiles especialmente para hacer bosquejos de nuevas funcionalidades sin lidiar con bases de datos, modelos y sentencias SQL y olvidarse de las sesiones. Se puede usar dentro o fuera de un marco de trabajo aunque fuera del marco de trabajo se refiere a que **no debe ser usado en producción**. Consume malas prácticas en favor de prestar una funcionalidad sencilla al programador para la confección de bosquejos de código útiles para maquetar controladores o contestar pedidos de la interfaz frontal.
 
@@ -17,6 +18,7 @@ MOF contiene una serie de funciones mínimas de jugete útiles especialmente par
 ### Iniciar la sesión
 
 ```php
+<?php
 require 'mof.php';
 
 $email = input('email'); // obtener el usuario
@@ -34,19 +36,23 @@ if (array_key_exists($email, $users)) {
 } else {
    json(array('status' => 'unknown-email')); // contestar el pedido
 }
+?>
 ```
 
 ### Cerrar la sesión
 
 ```php
+<?php
 require 'mof.php';
 
 logout(); // iniciar la sesión
+?>
 ```
 
 ### Editar datos de un usuario
 
 ```php
+<?php
 require 'mof.php';
 
 protect(); // esta página es privada
@@ -62,11 +68,13 @@ $users[$email]['city'] = input('city'); // obtener la ciudad
 store($users); // guardar la estructura de datos $users
 
 json(array('status' => 'ok')); // contestar el pedido
+?>
 ```
 
 ### Cambiar la contraseña
 
 ```php
+<?php
 require 'mof.php';
 
 protect(); // esta página es privada
@@ -84,11 +92,13 @@ if (password($current, $users[$email]['password'])) { // comparar contraseñas c
 } else {
    json(array('status' => 'invalid-password')); // contestar el pedido
 }
+?>
 ```
 
 ### CLI para crear un usuario
 
 ```php
+<?php
 require 'mof.php';
 
 restore($users); // leer la estructura de datos $users
@@ -98,16 +108,19 @@ $users['jperez']['name'] = 'Juan Perez';
 $users['jperez']['password'] = password('1234'); // cifrar contraseña
 
 store($users);// guardar la estructura de datos $users
+?>
 ```
 
 ### CLI para listar los usuarios
 
 ```php
+<?php
 require 'mof.php';
 
 restore($users); // leer la estructura de datos $users
 
 print_r($users);
+?>
 ```
 
 #### Salida
@@ -122,6 +135,116 @@ Array
         )
 
 )
+```
+
+## Ejemplo de completo de un micrositio con inicio de sesión
+
+### append.php (CLI)
+
+```php
+<?php
+require '../mof.php';
+
+restore($users);
+
+$users['test'] = array();
+$users['test']['name'] = 'Usuario de muestra';
+$users['test']['password'] = password('1234');
+
+store($users);
+?>
+```
+
+### login.php
+
+```php
+<?php
+require 'mof.php';
+
+$username = input('username');
+$password = input('password');
+
+restore($users);
+
+if (array_key_exists($username, $users)) {
+   if (password($password, $users[$username]['password'])) {
+      login($username);
+      redirect('welcome.php');
+   }
+}
+?>
+<!doctype html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="initial-scale=1">
+      <title>Ingresar</title>
+   </head>
+   <body>
+      <h1>Ingresar</h1>
+      <?php if ($username): ?>
+      <p style="color:red">No autorizado</p>
+      <?php endif ?>
+      <form method="post" action="login.php">
+         <input name="username" placeholder="Correo electrónico">
+         <br>
+         <input name="password" placeholder="Contraseña" type="password">
+         <br>
+         <button type="reset">Restablecer</button>
+         <button type="submit">Enviar</button>
+      </form>
+   </body>
+</html>
+```
+
+### logout.php
+
+```php
+<?php
+require '../mof.php';
+
+logout('login.php');
+?>
+```
+
+### welcome.php
+
+```php
+<?php
+require 'mof.php';
+
+protect('forbidden.php');
+
+restore($users);
+?>
+<!doctype html>
+<html lang="es">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="initial-scale=1">
+      <title>Bienvenido</title>
+   </head>
+   <body>
+      <h1>Bienvenido <?php echo $users[logged()]['name']; ?></h1>
+   </body>
+</html>
+```
+
+### forbidden.php
+
+```php
+<!doctype html>
+<html lang="es">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="initial-scale=1">
+      <title>No autorizado</title>
+   </head>
+   <body>
+      <h1 style="color:red">No autorizado</h1>
+      <a href="login.php">Iniciar sesión</a>
+   </body>
+</html>
 ```
 
 ## Tareas pendientes (que postergaré eternamente)

@@ -68,10 +68,13 @@ function session() {
    }
 }
 
-function protect() {
+function protect($location = false) {
    if (!logged()) {
+      if ($location) {
+         redirect($location);
+      }
       json(array('status' => 'unauthorized'));
-      _assert('No autorizado');
+      exit;
    }
 }
 
@@ -83,38 +86,15 @@ function logged() {
 function login($email) {
    session();
    $_SESSION['email'] = $email;
-   _log("Sesión iniciada como usuario $email");
 }
 
-function logout() {
+function logout($location = false) {
    session();
    unset($_SESSION['email']);
    session_destroy();
-}
-
-function _log($message, $dump = false) {
-   $path = __DIR__;
-   $file = "$path/logs/site.log";
-   $log = fopen($file, 'a') or die("¡No se pudo abrir el archivo $file!");
-   $now = date('d/m/Y H:i:s');
-   fwrite($log, $dump ? print_r($message, true) : "$now: $message\n");
-   fclose($log);
-}
-
-function debug($data) {
-   print '<pre>';
-   print_r($data);
-   print '</pre>';
-   exit(1);
-}
-
-function _assert($message, $file = __FILE__, $line = __LINE__) {
-   _log("assert => $message en $file ($line)");
-   exit(2);
-}
-
-function todo($task, $file, $line) {
-   _log("HACER '$task' en $file, ($line)");
+   if ($location) {
+      redirect($location);
+   }
 }
 
 function json($data) {
@@ -125,6 +105,29 @@ function json($data) {
    header("Content-length: $length");
 
    print $json;
+}
+
+function redirect($location) {
+   header("Location: $location");
+   exit;
+}
+
+function debug($data, $exit = false) {
+   print '<pre>';
+   print_r($data);
+   print '</pre>';
+   if ($exit) {
+      exit;
+   }
+}
+
+function _log($message, $dump = false) {
+   $path = __DIR__;
+   $file = "$path/logs/site.log";
+   $log = fopen($file, 'a') or die("¡No se pudo abrir el archivo $file!");
+   $now = date('d/m/Y H:i:s');
+   fwrite($log, $dump ? print_r($message, true) : "$now: $message\n");
+   fclose($log);
 }
 
 ?>
