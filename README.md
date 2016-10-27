@@ -14,7 +14,7 @@ MOF contiene una serie de funciones mínimas de jugete útiles especialmente par
 
 ## Ejemplos
 
-### Inicio de sesión
+### Iniciar la sesión
 
 ```php
 require 'mof.php';
@@ -26,7 +26,7 @@ restore($users); // leer la estructura de datos $users
 
 if (array_key_exists($email, $users)) {
    if (password($password, $users[$email]['password'])) { // comparar contraseñas cifradas
-      login($email); // iniciar sesión
+      login($email); // iniciar la sesión
       json(array('status' => 'authorized')); // contestar el pedido
    } else {
       json(array('status' => 'invalid-password')); // contestar el pedido
@@ -41,7 +41,7 @@ if (array_key_exists($email, $users)) {
 ```php
 require 'mof.php';
 
-logout();
+logout(); // iniciar la sesión
 ```
 
 ### Editar datos de un usuario
