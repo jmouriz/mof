@@ -10,6 +10,7 @@ MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es
 - Leer datos suministrados por el usuario sea por GET o POST (input).
 - Contestar pedidos con datos en notación JSON (json).
 - Contestar pedidos con estilos CSS (css).
+- Leer archivos especificando un contenido de contingencia (read).
 - Redireccionar (redirect).
 
 MOF contiene una serie de funciones mínimas de jugete útiles especialmente para hacer bosquejos de nuevas funcionalidades sin lidiar con bases de datos, modelos y sentencias SQL y olvidarse de las sesiones. Se puede usar dentro o fuera de un marco de trabajo aunque fuera del marco de trabajo se refiere a que **no debe ser usado en producción**. Consume malas prácticas en favor de prestar una funcionalidad sencilla al programador para la confección de bosquejos de código útiles para maquetar controladores o contestar pedidos de la interfaz frontal.
@@ -39,6 +40,14 @@ Guarda la estructura definida en `$variable` en un archivo con su mismo nombre y
 ### restore($variable)
 
 Restaura la estructura de `$variable` a partir del archivo con ese nombre o devuelve un arreglo vacío si el archivo no existe. Por ejemplo, `restore($users)` lee el archivo `database/users.dbz` y lo guarda en la variable `$users`.
+
+### read($filename)
+
+Lee y devuelve el contenido del archivo `$filename` si existe, sino devuelve `false`.
+
+### read($filename, $fallback)
+
+Igual que `read($filename` excepto que si el archivo no existe devuelve el valor de contingencia `$fallback`.
 
 ### input($variable)
 

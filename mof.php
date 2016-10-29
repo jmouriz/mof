@@ -64,6 +64,14 @@ function restore(&$variable) {
    }
 }
 
+function read($filename, $fallback = false) {
+   if (file_exists($filename)) {
+      return file_get_contents($filename);
+   } else {
+      return $fallback;
+   }
+}
+
 function input($variable, $default = false) {
    $post = filter_input(INPUT_POST, $variable);
    $get = filter_input(INPUT_GET, $variable);
