@@ -123,6 +123,15 @@ function json($data, $pretty = false) {
    print $json;
 }
 
+function css($css) {
+   $length = strlen($css);
+
+   header('Content-type: text/css; charset=utf-8');
+   header("Content-length: $length");
+
+   print $css;
+}
+
 function redirect($location) {
    header("Location: $location");
    exit;
