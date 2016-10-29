@@ -16,6 +16,22 @@ function password($password, $hash = null) {
    }
 }
 
+function libraries($path) {
+   if (file_exists($path)) {
+      define('__CLASSES__', $path);
+      spl_autoload_register(function($class) {
+         $path = __CLASSES__;
+         $class = strtr($class, '\\', '/');
+         $file = "$path/$class.php";
+         if (file_exists($file)) {
+            require $file;
+            return true;
+         }
+         /* todo => probar MyClassName -> My_Class_Name */
+      });
+   }
+}
+
 function filename($backtrace) {
    $path = __DIR__;
    $backtrace = $backtrace[0];
@@ -48,10 +64,10 @@ function restore(&$variable) {
    }
 }
 
-function input($variable) {
+function input($variable, $default = false) {
    $post = filter_input(INPUT_POST, $variable);
    $get = filter_input(INPUT_GET, $variable);
-   return $post ? $post : $get;
+   return $post ? $post : $get ? $get : $default;
 }
 
 function session() {
@@ -97,8 +113,8 @@ function logout($location = null) {
    }
 }
 
-function json($data) {
-   $json = json_encode($data);
+function json($data, $pretty = false) {
+   $json = json_encode($data, $pretty ? JSON_PRETTY_PRINT : 0);
    $length = strlen($json);
 
    header('Content-type: application/json; charset=utf-8');

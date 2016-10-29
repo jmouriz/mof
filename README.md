@@ -23,6 +23,10 @@ Dada la contraseña plana `$password` la devuelve cifrada.
 
 Dadas las contraseñas cifradas `$password` y `$hash`, las compara y devuelve `true` si son iguales o `false` en caso contrario.
 
+### libraries($path)
+
+Establece la ruta `$path` como el lugar donde buscar las librerias.
+
 ### filename($backtrace)
 
 Función de uso interno usada por `store` y `restore` para determinar el nombre de archivo a partir del nombre de una variable, intente no utilizarla.
@@ -37,7 +41,11 @@ Restaura la estructura de `$variable` a partir del archivo con ese nombre o devu
 
 ### input($variable)
 
-Obtiene `$variable` donde esté definida, sea GET o POST.
+Obtiene `$variable` donde esté definida, sea GET o POST. Si no está en ninguno de los dos, devuelve `false`.
+
+### input($variable, $default)
+
+Igual que `input($variable)` excepto que si no está ni en GET, ni en POST, devuelve `$default`.
 
 ### session()
 
@@ -70,6 +78,10 @@ Igual que `logout()` excepto que también redirige a `$location`.
 ### json($data)
 
 Escribe `$data` en notación JSON con los encabezados correspondientes.
+
+### json($data, true)
+
+Igual que `json($data)` excepto que formatea la salida.
 
 ### redirect($location)
 
