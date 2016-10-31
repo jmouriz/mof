@@ -25,9 +25,14 @@ Dada la contraseña plana `$password` la devuelve cifrada.
 
 Dadas las contraseñas cifradas `$password` y `$hash`, las compara y devuelve `true` si son iguales o `false` en caso contrario.
 
+### libraries()
+
+Establece la ruta donde se encuentra `mof.php` como el lugar donde buscar las librerias.
+
 ### libraries($path)
 
-Establece la ruta `$path` como el lugar donde buscar las librerias.
+Igual que `libraries()` excepto que establece la ruta de búsqueda a `$path`.
+
 
 ### filename($backtrace)
 

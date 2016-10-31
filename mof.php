@@ -16,7 +16,7 @@ function password($password, $hash = null) {
    }
 }
 
-function libraries($path) {
+function libraries($path = __DIR__) {
    if (file_exists($path)) {
       define('__CLASSES__', $path);
       spl_autoload_register(function($class) {
