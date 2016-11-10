@@ -92,7 +92,7 @@ Igual que `logout()` excepto que también redirige a `$location`.
 
 ### json($data)
 
-Escribe `$data` en notación JSON con los encabezados correspondientes.
+Escribe `$data` en notación JSON con los encabezados correspondientes y sle inmediatamente.
 
 ### json($data, true)
 
@@ -245,8 +245,7 @@ Array
 
 )
 ```
-
-## Ejemplo de completo de un micrositio protegido con  inicio de sesión
+## Ejemplo de completo de un micrositio protegido con inicio de sesión
 
 ### append.php (CLI)
 
@@ -278,7 +277,7 @@ restore($users);
 if (array_key_exists($username, $users)) {
    if (password($password, $users[$username]['password'])) {
       login($username);
-      redirect('welcome.php');
+      redirect('index.php');
    }
 }
 ?>
@@ -295,7 +294,7 @@ if (array_key_exists($username, $users)) {
       <p style="color:red">No autorizado</p>
       <?php endif ?>
       <form method="post" action="login.php">
-         <input name="username" placeholder="Correo electrónico">
+         <input name="username" placeholder="Usuario">
          <br>
          <input name="password" placeholder="Contraseña" type="password">
          <br>
@@ -316,13 +315,13 @@ logout('login.php');
 ?>
 ```
 
-### welcome.php
+### index.php
 
 ```php
 <?php
 require 'mof.php';
 
-protect('forbidden.php');
+protect('login.php');
 
 restore($users);
 ?>
@@ -335,23 +334,6 @@ restore($users);
    </head>
    <body>
       <h1>Bienvenido <?php echo $users[logged()]['name']; ?></h1>
-   </body>
-</html>
-```
-
-### forbidden.php
-
-```php
-<!doctype html>
-<html lang="es">
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="initial-scale=1">
-      <title>No autorizado</title>
-   </head>
-   <body>
-      <h1 style="color:red">No autorizado</h1>
-      <a href="login.php">Iniciar sesión</a>
    </body>
 </html>
 ```
