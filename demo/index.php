@@ -1,7 +1,7 @@
 <?php
 require '../mof.php';
 
-protect('forbidden.php');
+protect('login.php');
 
 restore($users);
 ?>

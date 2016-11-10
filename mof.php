@@ -75,7 +75,7 @@ function read($filename, $fallback = false) {
 function input($variable, $default = false) {
    $post = filter_input(INPUT_POST, $variable);
    $get = filter_input(INPUT_GET, $variable);
-   return $post ? $post : $get ? $get : $default;
+   return $post ? $post : ($get ? $get : $default);
 }
 
 function session() {
@@ -98,7 +98,6 @@ function protect($location = null) {
          redirect($location);
       }
       json(array('status' => 'unauthorized'));
-      exit;
    }
 }
 
@@ -138,6 +137,8 @@ function css($css) {
    header("Content-length: $length");
 
    print $css;
+
+   exit;
 }
 
 function redirect($location) {
