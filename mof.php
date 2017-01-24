@@ -1,5 +1,7 @@
 <?php 
 
+error_reporting(E_ALL);
+
 function password($password, $hash = null) {
    if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
       if ($hash) {
@@ -72,6 +74,33 @@ function read($filename, $fallback = false) {
    }
 }
 
+function upload($path = __DIR__, $filename = false, $mask = 0640) {
+   $method =  $_SERVER['REQUEST_METHOD'];
+   $file = $_FILES['file'];
+   if ($method == 'POST' && !empty($file)) {
+      if (!$filename) {
+         $filename = $file['name'];
+      }
+      $folder = "$path/upload";
+      $source = $file['tmp_name'];
+      $target = "$folder/$filename";
+
+      if ($file['error'] !== UPLOAD_ERR_OK) {
+         print "Error al subir el archivo $filename";
+         exit;
+      }
+
+      $success = move_uploaded_file($source, $target);
+
+      if (!$success) { 
+         print "Error al escribir el archivo $target";
+         exit;
+      }
+
+      chmod($target, $mask);
+   }
+}
+
 function input($variable, $default = false) {
    $post = filter_input(INPUT_POST, $variable);
    $get = filter_input(INPUT_GET, $variable);
@@ -137,7 +166,6 @@ function css($css) {
    header("Content-length: $length");
 
    print $css;
-
    exit;
 }
 
@@ -157,7 +185,7 @@ function debug($data, $exit = false) {
 
 function _log($message, $dump = false) {
    $path = __DIR__;
-   $file = "$path/logs/mof.log";
+   $file = "$path/log/mof.log";
    $log = fopen($file, 'a') or die("¡No se pudo abrir el archivo $file!");
    $now = date('d/m/Y H:i:s');
    fwrite($log, $dump ? print_r($message, true) : "$now: $message\n");
