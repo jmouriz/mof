@@ -33,7 +33,6 @@ Establece la ruta donde se encuentra `mof.php` como el lugar donde buscar las li
 
 Igual que `libraries()` excepto que establece la ruta de búsqueda a `$path`.
 
-
 ### filename($backtrace)
 
 Función de uso interno usada por `store` y `restore` para determinar el nombre de archivo a partir del nombre de una variable, intente no utilizarla.
@@ -53,6 +52,22 @@ Lee y devuelve el contenido del archivo `$filename` si existe, sino devuelve `fa
 ### read($filename, $fallback)
 
 Igual que `read($filename` excepto que si el archivo no existe devuelve el valor de contingencia `$fallback`.
+
+### upload()
+
+Pone un archivo recién subido en la carpeta `upload` dentro del directorio actual según los datos suministrados en `$_FILES` con el modo 0640.
+
+### upload($path)
+
+Pone un archivo recién subido en la carpeta `$path/upload` según los datos suministrados en `$_FILES` con el modo 0640.
+
+### upload($path, $filename)
+
+Pone un archivo recién subido en la carpeta `$path/upload` con el nombre `$filename` con el modo 0640.
+
+### upload($path, $filename, $mode)
+
+Pone un archivo recién subido en la carpeta `$path/upload` con el nombre `$filename` y el modo `$mode`.
 
 ### input($variable)
 

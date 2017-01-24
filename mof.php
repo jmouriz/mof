@@ -74,7 +74,7 @@ function read($filename, $fallback = false) {
    }
 }
 
-function upload($path = __DIR__, $filename = false, $mask = 0640) {
+function upload($path = __DIR__, $filename = false, $mode = 0640) {
    $method =  $_SERVER['REQUEST_METHOD'];
    $file = $_FILES['file'];
    if ($method == 'POST' && !empty($file)) {
@@ -97,7 +97,7 @@ function upload($path = __DIR__, $filename = false, $mask = 0640) {
          exit;
       }
 
-      chmod($target, $mask);
+      chmod($target, $mode);
    }
 }
 
