@@ -149,24 +149,27 @@ function logout($location = null) {
    }
 }
 
+function response($data, $type = 'text/xml') {
+   $origin = $_SERVER['HTTP_ORIGIN'];
+   $length = strlen($data);
+   header("Access-Control-Allow-Origin: $origin");
+   header("Content-Type: $type; charset=utf-8");
+   header("Content-Length: $length");
+   print $data;
+   exit;
+}
+
 function json($data, $pretty = false) {
    $json = json_encode($data, $pretty ? JSON_PRETTY_PRINT : 0);
-   $length = strlen($json);
-
-   header('Content-type: application/json; charset=utf-8');
-   header("Content-length: $length");
-
-   print $json;
+   response($json, 'application/json');
 }
 
 function css($css) {
-   $length = strlen($css);
+   response($css, 'text/css');
+}
 
-   header('Content-type: text/css; charset=utf-8');
-   header("Content-length: $length");
-
-   print $css;
-   exit;
+function html($html) {
+   response($html, 'text/html');
 }
 
 function redirect($location) {

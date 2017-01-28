@@ -8,10 +8,13 @@ MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es
 - Verificar si un usuario está autorizado (logged).
 - Proteger las páginas con acceso restringido (protect).
 - Leer datos suministrados por el usuario sea por GET o POST (input).
-- Contestar pedidos con datos en notación JSON (json).
+- Contestar pedidos con contenido HTML (html).
 - Contestar pedidos con estilos CSS (css).
+- Contestar pedidos con datos en notación JSON (json).
+- Contestar a los clientes cualquier tipo de contenido, por ejemplo XML (response).
 - Leer archivos especificando un contenido de contingencia (read).
 - Redireccionar (redirect).
+- Subir archivos al servidor (upload).
 
 MOF contiene una serie de funciones mínimas de jugete útiles especialmente para hacer bosquejos de nuevas funcionalidades sin lidiar con bases de datos, modelos y sentencias SQL y olvidarse de las sesiones. Se puede usar dentro o fuera de un marco de trabajo aunque fuera del marco de trabajo se refiere a que **no debe ser usado en producción**. Consume malas prácticas en favor de prestar una funcionalidad sencilla al programador para la confección de bosquejos de código útiles para maquetar controladores o contestar pedidos de la interfaz frontal.
 
@@ -105,9 +108,17 @@ Cierra la sesión.
 
 Igual que `logout()` excepto que también redirige a `$location`.
 
+### response($data)
+
+Escribe la respuesta HTML `$data` con los encabezados correspondientes y sale inmediatamente.
+
+### response($data, $type)
+
+Igual que `response($data)` excepto que escribe el encabezado para otros tipos diferentes a `text/html`.
+
 ### json($data)
 
-Escribe `$data` en notación JSON con los encabezados correspondientes y sle inmediatamente.
+Escribe `$data` en notación JSON con los encabezados correspondientes y sale inmediatamente.
 
 ### json($data, true)
 
@@ -116,6 +127,10 @@ Igual que `json($data)` excepto que formatea la salida.
 ### css($css)
 
 Escribe los estilos CSS pasados en `$css` con los encabezados correspondientes.
+
+### html($html)
+
+Escribe el contenido HTML pasado en `$html` con los encabezados correspondientes.
 
 ### redirect($location)
 
