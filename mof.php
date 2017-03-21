@@ -101,10 +101,26 @@ function upload($path = __DIR__, $filename = false, $mode = 0640) {
    }
 }
 
+$___internal_input = null;
+
 function input($variable, $default = false) {
    $post = filter_input(INPUT_POST, $variable);
+   if ($post) {
+      return $post;
+   }
    $get = filter_input(INPUT_GET, $variable);
-   return $post ? $post : ($get ? $get : $default);
+   if ($get) {
+      return $get;
+   }
+   global $___internal_input;
+   if ($___internal_input === null) {
+      $input = file_get_contents('php://input');
+      $___internal_input = json_decode($input);
+   }
+   if (property_exists($___internal_input, $variable)) {
+      return $___internal_input->{$variable};
+   }
+   return $default;
 }
 
 function session() {
