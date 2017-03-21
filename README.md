@@ -7,7 +7,7 @@ MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es
 - Iniciar y cerrar sesión (login/logout).
 - Verificar si un usuario está autorizado (logged).
 - Proteger las páginas con acceso restringido (protect).
-- Leer datos suministrados por el usuario sea por GET o POST (input).
+- Leer datos suministrados por el usuario sea por GET, POST o php://input (input).
 - Contestar pedidos con contenido HTML (html).
 - Contestar pedidos con estilos CSS (css).
 - Contestar pedidos con datos en notación JSON (json).
