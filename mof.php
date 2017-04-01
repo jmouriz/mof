@@ -51,7 +51,10 @@ function store($variable) {
    $filename = filename($backtrace);
    $data = serialize($variable);
    $raw = gzdeflate($data, 1);
-   file_put_contents($filename, $raw);
+   $success = file_put_contents($filename, $raw);
+   if ($success === false) {
+      die("¡No se pudo escribir en el archivo $filename!");
+   }
 }
 
 function restore(&$variable) {
