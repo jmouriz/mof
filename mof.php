@@ -151,17 +151,51 @@ function protect($location = null) {
 
 function logged() {
    session();
+   $email = isset($_COOKIE['email']) ? $_COOKIE['email'] : false;
+   if ($email) {
+      restore($cookies);
+      if (array_key_exists($email, $cookies)) {
+         $key = isset($_COOKIE['key']) ? $_COOKIE['key'] : false;
+         return $cookies[$email] == $key ? $email : false;
+      }
+   }
    return isset($_SESSION['email']) ? $_SESSION['email'] : false;
 }
 
-function login($email) {
+function login($email, $persist = false) {
    session();
    $_SESSION['email'] = $email;
+   mt_srand(time());
+   $key = mt_rand(1000000, 999999999);
+   if ($persist) {
+      $time = time() + (60 * 60 * 24 * 365);
+      setcookie('email', $email, $time, '/');
+      setcookie('key', $key, $time, '/');
+      _log($_COOKIE, true);
+      restore($cookies);
+      $cookies[$email] = $key;
+      store($cookies);
+      return $key;
+   }
+   return $key;
 }
 
 function logout($location = null) {
    session();
-   unset($_SESSION['email']);
+   $email = logged();
+   if ($email) {
+      restore($cookies);
+      if (array_key_exists($email, $cookies)) {
+         unset($cookies[$email]);
+         store($cookies);
+      }
+      $time = time() -1;
+      setcookie('email', '', $time, '/');
+      setcookie('key', '', $time, '/');
+      unset($_COOKIE['email']);
+      unset($_COOKIE['key']);
+      unset($_SESSION['email']);
+   }
    session_destroy();
    if ($location) {
       redirect($location);
