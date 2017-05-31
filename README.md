@@ -277,7 +277,7 @@ Array
 ```
 ## Ejemplo de completo de un micrositio protegido con inicio de sesión
 
-> ** RECUERDA ** El código que aquí se expone está en el directorio `demo` y para que funcione, los directorios `log` y `database` deben tener permisos
+> **RECUERDA** El código que aquí se expone está en el directorio `demo` y para que funcione, los directorios `log` y `database` deben tener permisos
 > de escritura para el grupo `www-data` (esto puede variar dependiendo del servidor web). Recomiendo que utilices el comando `setfacl -R mof g:www-data:rwX`
 > para otorgar dichos privilegios antes de comenzar. Ejecuta primero el script `append.php` en la consola para crear el usuario de prueba `test`.
 
