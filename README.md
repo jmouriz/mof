@@ -277,9 +277,14 @@ Array
 ```
 ## Ejemplo de completo de un micrositio protegido con inicio de sesión
 
+> ** RECUERDA ** El código que aquí se expone está en el directorio `demo` y para que funcione, los directorios `log` y `database` deben tener permisos
+> de escritura para el grupo `www-data` (esto puede variar dependiendo del servidor web). Recomiendo que utilices el comando `setfacl -R mof g:www-data:rwX`
+> para otorgar dichos privilegios antes de comenzar. Ejecuta primero el script `append.php` en la consola para crear el usuario de prueba `test`.
+
 ### append.php (CLI)
 
 ```php
+#!/usr/bin/php -f
 <?php
 require '../mof.php';
 
@@ -301,12 +306,13 @@ require 'mof.php';
 
 $username = input('username');
 $password = input('password');
+$remember = input('remember');
 
 restore($users);
 
 if (array_key_exists($username, $users)) {
    if (password($password, $users[$username]['password'])) {
-      login($username);
+      login($username, $remember);
       redirect('index.php');
    }
 }
@@ -327,6 +333,8 @@ if (array_key_exists($username, $users)) {
          <input name="username" placeholder="Usuario">
          <br>
          <input name="password" placeholder="Contraseña" type="password">
+         <br>
+         <input name="remember" type="checkbox"> Recordar sesión
          <br>
          <button type="reset">Restablecer</button>
          <button type="submit">Enviar</button>
