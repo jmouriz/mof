@@ -1,3 +1,4 @@
+#!/usr/bin/php -f
 <?php
 require '../mof.php';
 

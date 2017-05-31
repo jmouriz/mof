@@ -3,12 +3,13 @@ require '../mof.php';
 
 $username = input('username');
 $password = input('password');
+$remember = input('remember');
 
 restore($users);
 
 if (array_key_exists($username, $users)) {
    if (password($password, $users[$username]['password'])) {
-      login($username);
+      login($username, $remember);
       redirect('index.php');
    }
 }
@@ -30,6 +31,8 @@ if (array_key_exists($username, $users)) {
          <input name="username" placeholder="Usuario">
          <br>
          <input name="password" placeholder="Contraseña" type="password">
+         <br>
+         <input name="remember" type="checkbox"> Recordar sesión
          <br>
          <button type="reset">Restablecer</button>
          <button type="submit">Enviar</button>
