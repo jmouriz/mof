@@ -168,7 +168,7 @@ function login($email, $persist = false) {
    mt_srand(time());
    $key = mt_rand(1000000, 999999999);
    if ($persist) {
-      $time = time() + (60 * 60 * 24 * 365);
+      $time = time() + 60 * 60 * 24 * 365;
       setcookie('email', $email, $time, '/');
       setcookie('key', $key, $time, '/');
       _log($_COOKIE, true);
@@ -206,6 +206,7 @@ function response($data, $type = 'text/xml') {
    $origin = $_SERVER['HTTP_ORIGIN'];
    $length = strlen($data);
    header("Access-Control-Allow-Origin: $origin");
+   header("Access-Control-Allow-Credentials: true");
    header("Content-Type: $type; charset=utf-8");
    header("Content-Length: $length");
    print $data;
