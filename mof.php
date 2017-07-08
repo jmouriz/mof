@@ -79,6 +79,14 @@ if (!isset($___mof_loaded)) {
          return $fallback;
       }
    }
+
+   function volatile() {
+      $date = gmdate('D, d M Y H:i:s');
+      header('Expires: Tue, 12 Ago 1980 23:30:00 GMT'); // La págnina expira en fecha pasada
+      header("Last-Modified: $date GMT"); // Última actualización ahora cuando la cargamos 
+      header('Cache-Control: no-cache, must-revalidate'); // No guardar en caché
+      header('Pragma: no-cache'); // Encabezado paranóico para deshablitar caché
+   }
    
    function upload($path = __DIR__, $filename = false, $mode = 0640) {
       $method =  $_SERVER['REQUEST_METHOD'];

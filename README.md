@@ -15,6 +15,7 @@ MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es
 - Leer archivos especificando un contenido de contingencia (read).
 - Redireccionar (redirect).
 - Subir archivos al servidor (upload).
+- Decirle al navegador que no use el caché (volatile).
 
 MOF contiene una serie de funciones mínimas de jugete útiles especialmente para hacer bosquejos de nuevas funcionalidades sin lidiar con bases de datos, modelos y sentencias SQL y olvidarse de las sesiones. Se puede usar dentro o fuera de un marco de trabajo aunque fuera del marco de trabajo se refiere a que **no debe ser usado en producción**. Consume malas prácticas en favor de prestar una funcionalidad sencilla al programador para la confección de bosquejos de código útiles para maquetar controladores o contestar pedidos de la interfaz frontal.
 
@@ -71,6 +72,10 @@ Pone un archivo recién subido en la carpeta `$path/upload` con el nombre `$file
 ### upload($path, $filename, $mode)
 
 Pone un archivo recién subido en la carpeta `$path/upload` con el nombre `$filename` y el modo `$mode`.
+
+### volatile()
+
+Escribe los encabezados necesarios para solicitarle al navegador que no use el caché.
 
 ### input($variable)
 
