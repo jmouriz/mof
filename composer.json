@@ -1,0 +1,14 @@
+{
+   "name": "mof",
+   "description": "Mockup Outside Framework",
+   "version": "1.0.0",
+   "require": {
+      "php": "^5.3.3 || ^7.0"
+   },
+   "repositories": [
+      {
+         "type": "vcs",
+         "url": "https://github.com/jmouriz/mof"
+      }
+   ]
+}

@@ -1,6 +1,6 @@
 # MOF
 
-MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es un pequeño archivo PHP (~3,7Kb) para que incluyas en tus proyectos en la etapa de fabricación de la maqueta. Incluye algunas funciones básicas que serán de utilidad para:
+MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es un pequeño archivo PHP (~7,2Kb) para que incluyas en tus proyectos en la etapa de fabricación de la maqueta. Incluye algunas funciones básicas que serán de utilidad para:
 
 - Cifrar y comparar contraseñas cifradas de forma más o menos segura (password).
 - Escribir y leer estructuras de datos complejas en archivos (store/restore).
