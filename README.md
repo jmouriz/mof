@@ -165,20 +165,20 @@ Igual que `log($message)` excepto que en lugar de un mensaje formatea y escribe 
 <?php
 require 'mof.php';
 
-$email = input('email'); // obtener el usuario
-$password = input('password'); // obtener la contraseña
+$email = mof\input('email'); // obtener el usuario
+$password = mof\input('password'); // obtener la contraseña
 
-restore($users); // leer la estructura de datos $users
+mof\restore($users); // leer la estructura de datos $users
 
 if (array_key_exists($email, $users)) {
-   if (password($password, $users[$email]['password'])) { // comparar contraseñas cifradas
-      login($email); // iniciar la sesión
-      json(array('status' => 'authorized')); // contestar el pedido
+   if (mof\password($password, $users[$email]['password'])) { // comparar contraseñas cifradas
+      mof\login($email); // iniciar la sesión
+      mof\json(array('status' => 'authorized')); // contestar el pedido
    } else {
-      json(array('status' => 'invalid-password')); // contestar el pedido
+      mof\json(array('status' => 'invalid-password')); // contestar el pedido
    }
 } else {
-   json(array('status' => 'unknown-email')); // contestar el pedido
+   mof\json(array('status' => 'unknown-email')); // contestar el pedido
 }
 ?>
 ```
@@ -189,7 +189,7 @@ if (array_key_exists($email, $users)) {
 <?php
 require 'mof.php';
 
-logout('goodbye.php'); // cerrar la sesión
+mof\logout('goodbye.php'); // cerrar la sesión
 ?>
 ```
 
@@ -199,19 +199,19 @@ logout('goodbye.php'); // cerrar la sesión
 <?php
 require 'mof.php';
 
-protect(); // esta página es privada
+mof\protect(); // esta página es privada
 
-$email = input('email'); // obtener el usuario
+$email = mof\input('email'); // obtener el usuario
 
-restore($users); // leer la estructura de datos $users
+mof\restore($users); // leer la estructura de datos $users
 
-$users[$email]['name'] = input('name'); // obtener el nombre
-$users[$email]['phone'] = input('phone'); // obtener el teléfono
-$users[$email]['city'] = input('city'); // obtener la ciudad
+$users[$email]['name'] = mof\input('name'); // obtener el nombre
+$users[$email]['phone'] = mof\input('phone'); // obtener el teléfono
+$users[$email]['city'] = mof\input('city'); // obtener la ciudad
 
-store($users); // guardar la estructura de datos $users
+mof\store($users); // guardar la estructura de datos $users
 
-json(array('status' => 'ok')); // contestar el pedido
+mof\json(array('status' => 'ok')); // contestar el pedido
 ?>
 ```
 
@@ -221,20 +221,20 @@ json(array('status' => 'ok')); // contestar el pedido
 <?php
 require 'mof.php';
 
-protect(); // esta página es privada
+mof\protect(); // esta página es privada
 
-$email = input('email'); // obtener el usuario
-$current = input('current'); // obtener la contraseña actual
-$password = input('new'); // obtener la contraseña nueva
+$email = mof\input('email'); // obtener el usuario
+$current = mof\input('current'); // obtener la contraseña actual
+$password = mof\input('new'); // obtener la contraseña nueva
 
-restore($users); // leer la estructura de datos $users
+mof\restore($users); // leer la estructura de datos $users
 
-if (password($current, $users[$email]['password'])) { // comparar contraseñas cifradas
-   $users[$email]['password'] = password($password); // cifrar contraseña nueva
-   store($users);  // guardar la estructura de datos $users
-   json(array('status' => 'ok')); // contestar el pedido
+if (mof\password($current, $users[$email]['password'])) { // comparar contraseñas cifradas
+   $users[$email]['password'] = mof\password($password); // cifrar contraseña nueva
+   mof\store($users);  // guardar la estructura de datos $users
+   mof\json(array('status' => 'ok')); // contestar el pedido
 } else {
-   json(array('status' => 'invalid-password')); // contestar el pedido
+   mof\json(array('status' => 'invalid-password')); // contestar el pedido
 }
 ?>
 ```
@@ -245,13 +245,13 @@ if (password($current, $users[$email]['password'])) { // comparar contraseñas c
 <?php
 require 'mof.php';
 
-restore($users); // leer la estructura de datos $users
+mof\restore($users); // leer la estructura de datos $users
 
 $users['jperez'] = array();
 $users['jperez']['name'] = 'Juan Perez';
-$users['jperez']['password'] = password('1234'); // cifrar contraseña
+$users['jperez']['password'] = mof\password('1234'); // cifrar contraseña
 
-store($users);// guardar la estructura de datos $users
+mof\store($users);// guardar la estructura de datos $users
 ?>
 ```
 
@@ -261,7 +261,7 @@ store($users);// guardar la estructura de datos $users
 <?php
 require 'mof.php';
 
-restore($users); // leer la estructura de datos $users
+mof\restore($users); // leer la estructura de datos $users
 
 print_r($users);
 ?>
@@ -293,13 +293,13 @@ Array
 <?php
 require '../mof.php';
 
-restore($users);
+mof\restore($users);
 
 $users['test'] = array();
 $users['test']['name'] = 'Usuario de muestra';
-$users['test']['password'] = password('1234');
+$users['test']['password'] = mof\password('1234');
 
-store($users);
+mof\store($users);
 ?>
 ```
 
@@ -309,16 +309,16 @@ store($users);
 <?php
 require 'mof.php';
 
-$username = input('username');
-$password = input('password');
-$remember = input('remember');
+$username = mof\input('username');
+$password = mof\input('password');
+$remember = mof\input('remember');
 
-restore($users);
+mof\restore($users);
 
 if (array_key_exists($username, $users)) {
-   if (password($password, $users[$username]['password'])) {
-      login($username, $remember);
-      redirect('index.php');
+   if (mof\password($password, $users[$username]['password'])) {
+      mof\login($username, $remember);
+      mof\redirect('index.php');
    }
 }
 ?>
@@ -364,9 +364,9 @@ logout('login.php');
 <?php
 require 'mof.php';
 
-protect('login.php');
+mof\protect('login.php');
 
-restore($users);
+mof\restore($users);
 ?>
 <!doctype html>
 <html lang="es">
@@ -376,7 +376,7 @@ restore($users);
       <title>Bienvenido</title>
    </head>
    <body>
-      <h1>Bienvenido <?php echo $users[logged()]['name']; ?></h1>
+      <h1>Bienvenido <?php echo $users[mof\logged()]['name']; ?></h1>
    </body>
 </html>
 ```
