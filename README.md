@@ -55,7 +55,7 @@ Lee y devuelve el contenido del archivo `$filename` si existe, sino devuelve `fa
 
 ### read($filename, $fallback)
 
-Igual que `read($filename` excepto que si el archivo no existe devuelve el valor de contingencia `$fallback`.
+Igual que `read($filename)` excepto que si el archivo no existe devuelve `$fallback`.
 
 ### upload()
 
@@ -63,15 +63,15 @@ Pone un archivo recién subido en la carpeta `upload` dentro del directorio actu
 
 ### upload($path)
 
-Pone un archivo recién subido en la carpeta `$path/upload` según los datos suministrados en `$_FILES` con el modo 0640.
+Igual que `upload()` excepto que coloca el archivo en `$path/upload`.
 
 ### upload($path, $filename)
 
-Pone un archivo recién subido en la carpeta `$path/upload` con el nombre `$filename` con el modo 0640.
+Igual que `upload()` excepto que coloca el archivo en `$path/upload` con el nombre `$filename`.
 
 ### upload($path, $filename, $mode)
 
-Pone un archivo recién subido en la carpeta `$path/upload` con el nombre `$filename` y el modo `$mode`.
+Igual que `upload()` excepto que coloca el archivo en `$path/upload` con el nombre `$filename` y el modo `$mode`.
 
 ### volatile()
 
@@ -79,11 +79,11 @@ Escribe los encabezados necesarios para solicitarle al navegador que no use el c
 
 ### input($variable)
 
-Obtiene `$variable` donde esté definida, sea GET o POST. Si no está en ninguno de los dos, devuelve `false`.
+Obtiene `$variable` donde esté definida, sea GET, POST o php://input. Si no está en ninguna de las tres, devuelve `false`.
 
 ### input($variable, $default)
 
-Igual que `input($variable)` excepto que si no está ni en GET, ni en POST, devuelve `$default`.
+Igual que `input($variable)` excepto que si no está definida ni en GET, ni en POST, ni en php://input, devuelve `$default`.
 
 ### session()
 
@@ -119,7 +119,7 @@ Escribe la respuesta HTML `$data` con los encabezados correspondientes y sale in
 
 ### response($data, $type)
 
-Igual que `response($data)` excepto que escribe el encabezado para otros tipos diferentes a `text/html`.
+Igual que `response($data)` excepto que escribe el encabezado para el tipo `$type`, por ejemplo text/xml.
 
 ### json($data)
 
@@ -135,7 +135,7 @@ Escribe los estilos CSS pasados en `$css` con los encabezados correspondientes.
 
 ### html($html)
 
-Escribe el contenido HTML pasado en `$html` con los encabezados correspondientes.
+Escribe el contenido HTML pasado en `$html` con los encabezados correspondientes. Igual que `response($data)`.
 
 ### redirect($location)
 
@@ -149,13 +149,13 @@ Escribe `$data` con la forma adecuada para mostrar en el navegador.
 
 Igual que `debug($data)` excepto que también termina el flujo inmediatamente.
 
-### _log($message)
+### log($message)
 
-Escribe `$mensaje` en el archivo `logs/mof.log`.
+Escribe `$message` en el archivo `logs/mof.log`.
 
-### _log($variable, true)
+### log($variable, true)
 
-Igual que `_log($message)` excepto que en lugar de un mensaje formatea y escribe `$variable`.
+Igual que `log($message)` excepto que en lugar de un mensaje formatea y escribe `$variable`.
 
 ## Ejemplos
 
@@ -283,7 +283,7 @@ Array
 ## Ejemplo de completo de un micrositio protegido con inicio de sesión
 
 > **RECUERDA** El código que aquí se expone está en el directorio `demo` y para que funcione, los directorios `log` y `database` deben tener permisos
-> de escritura para el grupo `www-data` (esto puede variar dependiendo del servidor web). Recomiendo que utilices el comando `setfacl -R mof g:www-data:rwX`
+> de escritura para el grupo `www-data` (esto puede variar dependiendo del servidor web). Recomiendo que utilices el comando `setfacl -m g:www-data:rwX -R mof`
 > para otorgar dichos privilegios antes de comenzar. Ejecuta primero el script `append.php` en la consola para crear el usuario de prueba `test`.
 
 ### append.php (CLI)

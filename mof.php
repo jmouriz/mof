@@ -1,6 +1,4 @@
-<?php 
-
-error_reporting(E_ALL);
+<?php namespace mof;
 
 if (!isset($___mof_loaded)) {
    $___mof_loaded = true;
@@ -182,7 +180,7 @@ if (!isset($___mof_loaded)) {
          $time = time() + 60 * 60 * 24 * 365;
          setcookie('email', $email, $time, '/');
          setcookie('key', $key, $time, '/');
-         _log($_COOKIE, true);
+         log($_COOKIE, true);
          restore($cookies);
          $cookies[$email] = $key;
          store($cookies);
@@ -251,7 +249,7 @@ if (!isset($___mof_loaded)) {
       }
    }
    
-   function _log($message, $dump = false) {
+   function log($message, $dump = false) {
       $path = __DIR__;
       $file = "$path/log/mof.log";
       $log = fopen($file, 'a') or die("¡No se pudo abrir el archivo $file!");

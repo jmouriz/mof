@@ -3,16 +3,26 @@
    "description": "Mockup Outside Framework",
    "version": "1.0.0",
    "license": "MIT",
-   "require": {
+   "require":
+   {
       "php": "^5.3.3 || ^7.0"
    },
-   "repositories": [
+   "autoload":
+   {
+      "files":
+      [
+         "mof.php"
+      ]
+   },
+   "repositories":
+   [
       {
          "type": "vcs",
          "url": "https://github.com/jmouriz/mof"
       }
    ],
-   "authors": [
+   "authors":
+   [
       {
          "name": "Juan Manuel Mouriz",
          "email": "jmouriz@gmail.com",
@@ -20,7 +30,8 @@
          "role": "Developer"
       }
    ],
-   "support": {
+   "support":
+   {
       "email": "jmouriz@gmail.com"
    }
 }
