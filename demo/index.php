@@ -1,9 +1,9 @@
 <?php
 require '../mof.php';
 
-protect('login.php');
+mof\protect('login.php');
 
-restore($users);
+mof\restore($users);
 ?>
 <!doctype html>
 <html lang="es">
@@ -13,7 +13,7 @@ restore($users);
       <title>Bienvenido</title>
    </head>
    <body>
-      <h1>Bienvenido <?php echo $users[logged()]['name']; ?></h1>
+      <h1>Bienvenido <?php echo $users[mof\logged()]['name']; ?></h1>
       <a href="logout.php">Cerrar sesión</a>
    </body>
 </html>

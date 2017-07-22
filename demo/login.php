@@ -1,16 +1,16 @@
 <?php
 require '../mof.php';
 
-$username = input('username');
-$password = input('password');
-$remember = input('remember');
+$username = mof\input('username');
+$password = mof\input('password');
+$remember = mof\input('remember');
 
-restore($users);
+mof\restore($users);
 
 if (array_key_exists($username, $users)) {
-   if (password($password, $users[$username]['password'])) {
-      login($username, $remember);
-      redirect('index.php');
+   if (mof\password($password, $users[$username]['password'])) {
+      mof\login($username, $remember);
+      mof\redirect('index.php');
    }
 }
 ?>
