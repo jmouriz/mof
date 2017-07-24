@@ -4,6 +4,7 @@ require '../mof.php';
 $username = mof\input('username');
 $password = mof\input('password');
 $remember = mof\input('remember');
+$registered = mof\input('registered');
 
 mof\restore($users);
 
@@ -23,9 +24,13 @@ if (array_key_exists($username, $users)) {
    </head>
    <body>
       <h1>Ingresar</h1>
-      <p>Pruebe <b>test/1234</b> para iniciar sesión</p>
       <?php if ($username): ?>
       <p style="color:red">No autorizado</p>
+      <?php endif ?>
+      <?php if ($registered): ?>
+      <p>Creaste una cuenta, ya puedes utilizarla para ingresar</p>
+      <?php else: ?>
+      <p>¿Aún no tienes cuenta? <a href="register.php">Crea una nueva</a></p>
       <?php endif ?>
       <form method="post" action="login.php">
          <input name="username" placeholder="Usuario">

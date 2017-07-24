@@ -27,11 +27,11 @@ Dada la contraseña plana `$password` la devuelve cifrada.
 
 ### password($password, $hash)
 
-Dadas las contraseñas cifradas `$password` y `$hash`, las compara y devuelve `true` si son iguales o `false` en caso contrario.
+Dada la contraseña `$password` y su versión cifrada `$hash` (almacenada), las compara y devuelve `true` si son iguales o `false` en caso contrario.
 
 ### libraries()
 
-Establece la ruta donde se encuentra `mof.php` como el lugar donde buscar las librerias.
+Establece la ruta donde se encuentra `mof.php` como el lugar donde buscar las librerias. Intenta ser una ayuda a la característica autoload de PHP.
 
 ### libraries($path)
 
@@ -39,7 +39,7 @@ Igual que `libraries()` excepto que establece la ruta de búsqueda a `$path`.
 
 ### filename($backtrace)
 
-Función de uso interno usada por `store` y `restore` para determinar el nombre de archivo a partir del nombre de una variable, intente no utilizarla.
+Función de uso interno usada por `store` y `restore` para determinar el nombre de archivo a partir del nombre de una variable, intenta no utilizarla.
 
 ### store($variable)
 
@@ -101,9 +101,13 @@ Igual que `protect()` excepto que si no hay una sesión iniciada redirige a `$lo
 
 Devuelve el usuario que inició la sesión o `false` si no inició ningún usuario.
 
-### login($email)
+### login($username)
 
-Inicia una sesión para el usuario $email.
+Inicia una sesión para el usuario $username.
+
+### login($username, true)
+
+Inicia una sesión para el usuario $username la guarda en una cookie para futuras ocasiones. Útil para mantener una sesión iniciada de manera persistente.
 
 ### logout()
 
@@ -151,11 +155,7 @@ Igual que `debug($data)` excepto que también termina el flujo inmediatamente.
 
 ### log($message)
 
-Escribe `$message` en el archivo `logs/mof.log`.
-
-### log($variable, true)
-
-Igual que `log($message)` excepto que en lugar de un mensaje formatea y escribe `$variable`.
+Escribe `$message` en el archivo `logs/mof.log`. Si `$message` es una variable, escribe su contenido formateado.
 
 ## Ejemplos
 
@@ -190,6 +190,33 @@ if (array_key_exists($email, $users)) {
 require 'mof.php';
 
 mof\logout('goodbye.php'); // cerrar la sesión
+?>
+```
+
+### Registrar un usuario
+
+```php
+<?php
+require 'mof.php';
+
+$email = mof\input('email'); // obtener el usuario
+$password = mof\input('password'); // obtener la contraseña
+
+mof\restore($users); // leer la estructura de datos $users
+
+if ($email && $password) {
+   if (array_key_exists($email, $users)) {
+      mof\json(array('status' => 'already-exists')); // contestar el pedido
+   } else {
+      $users[$email] = array(); // crear el usuario
+      $users[$email]['password'] = mof\password($password); // cifrar contraseña nueva
+      $users[$email]['firstname'] = mof\input('firstname'); // obtener el nombre
+      $users[$email]['lastname'] = mof\input('lastname'); // obtener el apellido
+      $users[$email]['phone'] = mof\input('phone'); // obtener el teléfono
+      mof\store($users); // guardar la estructura de datos $users
+      mof\json(array('status' => 'ok')); // contestar el pedido
+   }
+}
 ?>
 ```
 
@@ -239,22 +266,6 @@ if (mof\password($current, $users[$email]['password'])) { // comparar contraseñ
 ?>
 ```
 
-### CLI para crear un usuario
-
-```php
-<?php
-require 'mof.php';
-
-mof\restore($users); // leer la estructura de datos $users
-
-$users['jperez'] = array();
-$users['jperez']['name'] = 'Juan Perez';
-$users['jperez']['password'] = mof\password('1234'); // cifrar contraseña
-
-mof\store($users);// guardar la estructura de datos $users
-?>
-```
-
 ### CLI para listar los usuarios
 
 ```php
@@ -284,23 +295,65 @@ Array
 
 > **RECUERDA** El código que aquí se expone está en el directorio `demo` y para que funcione, los directorios `log` y `database` deben tener permisos
 > de escritura para el grupo `www-data` (esto puede variar dependiendo del servidor web). Recomiendo que utilices el comando `setfacl -m g:www-data:rwX -R mof`
-> para otorgar dichos privilegios antes de comenzar. Ejecuta primero el script `append.php` en la consola para crear el usuario de prueba `test`.
+> para otorgar dichos privilegios antes de comenzar.
 
-### append.php (CLI)
+### register.php
 
 ```php
-#!/usr/bin/php -f
 <?php
-require '../mof.php';
+require 'mof.php';
+
+$username = mof\input('username');
+$password = mof\input('password');
+$exists = false;
 
 mof\restore($users);
 
-$users['test'] = array();
-$users['test']['name'] = 'Usuario de muestra';
-$users['test']['password'] = mof\password('1234');
-
-mof\store($users);
+if ($username && $password) {
+   if (array_key_exists($username, $users)) {
+      $exists = true;
+   } else {
+      $users[$username] = array();
+      $users[$username]['password'] = mof\password($password);
+      $users[$username]['firstname'] = mof\input('firstname');
+      $users[$username]['lastname'] = mof\input('lastname');
+      $users[$username]['phone'] = mof\input('phone');
+      mof\store($users);
+      mof\redirect('login.php?registered=1');
+   }
+}
 ?>
+<!doctype html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="initial-scale=1">
+      <title>Registro</title>
+   </head>
+   <body>
+      <h1>Registro</h1>
+      <?php if ($username || $password): ?>
+      <p style="color:red">Faltan datos</p>
+      <?php endif ?>
+      <?php if ($exists): ?>
+      <p style="color:red">El usuario ya existe, por favor, elige otro nombre</p>
+      <?php endif ?>
+      <form method="post" action="register.php">
+         <input name="username" placeholder="Usuario">
+         <br>
+         <input name="password" placeholder="Contraseña" type="password">
+         <br>
+         <input name="firstname" placeholder="Nombre">
+         <br>
+         <input name="lastname" placeholder="Apellido">
+         <br>
+         <input name="phone" placeholder="Teléfono">
+         <br>
+         <button type="reset">Restablecer</button>
+         <button type="submit">Enviar</button>
+      </form>
+   </body>
+</html>
 ```
 
 ### login.php
@@ -312,6 +365,7 @@ require 'mof.php';
 $username = mof\input('username');
 $password = mof\input('password');
 $remember = mof\input('remember');
+$registered = mof\input('registered');
 
 mof\restore($users);
 
@@ -333,6 +387,11 @@ if (array_key_exists($username, $users)) {
       <h1>Ingresar</h1>
       <?php if ($username): ?>
       <p style="color:red">No autorizado</p>
+      <?php endif ?>
+      <?php if ($registered): ?>
+      <p>Creaste una cuenta, ya puedes utilizarla para ingresar</p>
+      <?php else: ?>
+      <p>¿Aún no tienes cuenta? <a href="register.php">Crea una nueva</a></p>
       <?php endif ?>
       <form method="post" action="login.php">
          <input name="username" placeholder="Usuario">

@@ -249,12 +249,12 @@ if (!isset($___mof_loaded)) {
       }
    }
    
-   function log($message, $dump = false) {
+   function log($message) {
       $path = __DIR__;
       $file = "$path/log/mof.log";
       $log = fopen($file, 'a') or die("¡No se pudo abrir el archivo $file!");
       $now = date('d/m/Y H:i:s');
-      fwrite($log, $dump ? print_r($message, true) : "$now: $message\n");
+      fwrite($log, (is_array($message) || is_object($message)) ? print_r($message, true) : "$now: $message\n");
       fclose($log);
    }
 }
