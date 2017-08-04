@@ -158,31 +158,31 @@ if (!isset($___mof_loaded)) {
       }
    }
    
-   function logged() {
+   function logged($default = false) {
       session();
-      $email = isset($_COOKIE['email']) ? $_COOKIE['email'] : false;
-      if ($email) {
+      $user = isset($_COOKIE['user']) ? $_COOKIE['user'] : false;
+      if ($user) {
          restore($cookies);
-         if (array_key_exists($email, $cookies)) {
+         if (array_key_exists($user, $cookies)) {
             $key = isset($_COOKIE['key']) ? $_COOKIE['key'] : false;
-            return $cookies[$email] == $key ? $email : false;
+            return $cookies[$user] == $key ? $user : $default;
          }
       }
-      return isset($_SESSION['email']) ? $_SESSION['email'] : false;
+      return isset($_SESSION['user']) ? $_SESSION['user'] : $default;
    }
    
-   function login($email, $persist = false) {
+   function login($user, $persist = false) {
       session();
-      $_SESSION['email'] = $email;
+      $_SESSION['user'] = $user;
       mt_srand(time());
       $key = mt_rand(1000000, 999999999);
       if ($persist) {
          $time = time() + 60 * 60 * 24 * 365;
-         setcookie('email', $email, $time, '/');
+         setcookie('user', $user, $time, '/');
          setcookie('key', $key, $time, '/');
          log($_COOKIE, true);
          restore($cookies);
-         $cookies[$email] = $key;
+         $cookies[$user] = $key;
          store($cookies);
          return $key;
       }
@@ -191,19 +191,19 @@ if (!isset($___mof_loaded)) {
    
    function logout($location = null) {
       session();
-      $email = logged();
-      if ($email) {
+      $user = logged();
+      if ($user) {
          restore($cookies);
-         if (array_key_exists($email, $cookies)) {
-            unset($cookies[$email]);
+         if (array_key_exists($user, $cookies)) {
+            unset($cookies[$user]);
             store($cookies);
          }
          $time = time() -1;
-         setcookie('email', '', $time, '/');
+         setcookie('user', '', $time, '/');
          setcookie('key', '', $time, '/');
-         unset($_COOKIE['email']);
+         unset($_COOKIE['user']);
          unset($_COOKIE['key']);
-         unset($_SESSION['email']);
+         unset($_SESSION['user']);
       }
       session_destroy();
       if ($location) {

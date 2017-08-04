@@ -101,13 +101,17 @@ Igual que `protect()` excepto que si no hay una sesión iniciada redirige a `$lo
 
 Devuelve el usuario que inició la sesión o `false` si no inició ningún usuario.
 
-### login($username)
+### logged($default)
 
-Inicia una sesión para el usuario $username.
+Igual que `login()` excepto que no inició ningún usuario, devuelve `$default`.
 
-### login($username, true)
+### login($user)
 
-Inicia una sesión para el usuario $username la guarda en una cookie para futuras ocasiones. Útil para mantener una sesión iniciada de manera persistente.
+Inicia una sesión para el usuario `$user`, que puede ser un nombre de usuario, un identificador único, una dirección de correo electrónico o cualquier dato que identifique al usuario.
+
+### login($user, true)
+
+Igual que `login($user)` excepto que también guarda una cookie para futuras ocasiones. Útil para mantener una sesión iniciada de manera persistente.
 
 ### logout()
 
