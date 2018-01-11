@@ -129,7 +129,7 @@ if (!isset($___mof_loaded)) {
          $input = file_get_contents('php://input');
          $___internal_input = json_decode($input);
       }
-      if (property_exists($___internal_input, $variable)) {
+      if ($___internal_input && property_exists($___internal_input, $variable)) {
          return $___internal_input->{$variable};
       }
       return $default;
