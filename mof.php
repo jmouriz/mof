@@ -4,13 +4,14 @@ if (!isset($___mof_loaded)) {
    $___mof_loaded = true;
    
    function password($password, $hash = null) {
+      $verify = (func_num_args() == 2);
       if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
-         if ($hash) {
+         if ($verify) {
             return password_verify($password, $hash);
          }
          return password_hash($password, PASSWORD_BCRYPT);
       } else {
-         if ($hash) {
+         if ($verify) {
             return $hash == crypt($password, $hash);
          }
          $prefix = '$2y$07$';
