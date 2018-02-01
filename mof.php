@@ -2,6 +2,10 @@
 
 if (!isset($___mof_loaded)) {
    $___mof_loaded = true;
+
+   function id($size) {
+      return substr(uniqid(), 0, $size);
+   }
    
    function password($password, $hash = null) {
       $verify = (func_num_args() == 2);
