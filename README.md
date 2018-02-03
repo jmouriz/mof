@@ -4,6 +4,7 @@ MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es
 
 - Cifrar y comparar contraseñas cifradas de forma más o menos segura (password).
 - Escribir y leer estructuras de datos complejas en archivos (store/restore).
+- Especificar la ruta donde se guardan los archivos (storage).
 - Iniciar y cerrar sesión (login/logout).
 - Verificar si un usuario está autorizado (logged).
 - Proteger las páginas con acceso restringido (protect).
@@ -50,13 +51,21 @@ Igual que `libraries()` excepto que establece la ruta de búsqueda a `$path`.
 
 Función de uso interno usada por `store` y `restore` para determinar el nombre de archivo a partir del nombre de una variable, intenta no utilizarla.
 
+### storage($path)
+
+Especifica que los archivos persistentes se deben guardar en la ruta especificada en `$path`.
+
+### storage()
+
+Especifica que los archivos persistentes se deben guardar en la ruta que se encuentra donde está el archivo `mof.php`.
+
 ### store($variable)
 
-Guarda la estructura definida en `$variable` en un archivo con su mismo nombre y lo comprime. Por ejemplo, `store($users)` guarda `$users` en el archivo `database/users.dbz`
+Guarda la estructura definida en `$variable` en un archivo con su mismo nombre y lo comprime. Por ejemplo, `store($users)` guarda `$users` en el archivo `storage/users.dbz`
 
 ### restore($variable)
 
-Restaura la estructura de `$variable` a partir del archivo con ese nombre o devuelve un arreglo vacío si el archivo no existe. Por ejemplo, `restore($users)` lee el archivo `database/users.dbz` y lo guarda en la variable `$users`.
+Restaura la estructura de `$variable` a partir del archivo con ese nombre o devuelve un arreglo vacío si el archivo no existe. Por ejemplo, `restore($users)` lee el archivo `storage/users.dbz` y lo guarda en la variable `$users`.
 
 ### read($filename)
 
@@ -306,7 +315,7 @@ Array
 ```
 ## Ejemplo de completo de un micrositio protegido con inicio de sesión
 
-> **RECUERDA** El código que aquí se expone está en el directorio `demo` y para que funcione, los directorios `log` y `database` deben tener permisos
+> **RECUERDA** El código que aquí se expone está en el directorio `demo` y para que funcione, los directorios `log` y `storage` deben tener permisos
 > de escritura para el grupo `www-data` (esto puede variar dependiendo del servidor web). Recomiendo que utilices el comando `setfacl -m g:www-data:rwX -R mof`
 > para otorgar dichos privilegios antes de comenzar.
 

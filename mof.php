@@ -2,11 +2,7 @@
 
 if (!isset($___mof_loaded)) {
    $___mof_loaded = true;
-
-   function id($size) {
-      return substr(uniqid(), 0, $size);
-   }
-   
+  
    function password($password, $hash = null) {
       $verify = (func_num_args() == 2);
       if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
@@ -23,7 +19,7 @@ if (!isset($___mof_loaded)) {
          return crypt($password, "$prefix$blowfish");
       }
    }
-   
+
    function libraries($path = __DIR__) {
       if (file_exists($path)) {
          define('__CLASSES__', $path);
@@ -39,9 +35,18 @@ if (!isset($___mof_loaded)) {
          });
       }
    }
-   
+
+   $path = __DIR__;
+   $storage = "$path/storage";
+   $map = array();
+
+   function storage($path = __DIR__) {
+      global $storage;
+      $storage = $path;
+   }
+  
    function filename($backtrace) {
-      $path = __DIR__;
+      global $storage;
       $backtrace = $backtrace[0];
       $filename = $backtrace['file']; 
       $line = $backtrace['line'] -1;
@@ -49,12 +54,16 @@ if (!isset($___mof_loaded)) {
       $input = $file[$line];
       preg_match('#\\$(\w+)#', $input, $match);
       $name = $match[1];
-      return "$path/database/$name.dbz";
+      return "$storage/$name.dbz";
    }
    
    function store($variable) {
+      global $map;
       $backtrace = debug_backtrace();
       $filename = filename($backtrace);
+      if (!in_array($filename, $map) &&file_exists($filename)) {
+         die("Por seguridad no se puede guardar el archivo $filename porque existe una copia previa que nunca se restauró");
+      }
       $data = serialize($variable);
       $raw = gzdeflate($data, 1);
       $success = file_put_contents($filename, $raw);
@@ -64,8 +73,12 @@ if (!isset($___mof_loaded)) {
    }
    
    function restore(&$variable) {
+      global $map;
       $backtrace = debug_backtrace();
       $filename = filename($backtrace);
+      if (!in_array($filename, $map)) {
+         $map[] = $filename;
+      }
       if (file_exists($filename)) {
          $raw = file_get_contents($filename);
          $data = gzinflate($raw);
@@ -118,17 +131,23 @@ if (!isset($___mof_loaded)) {
       }
    }
    
-   $___internal_input = null;
+   //$___internal_input = null;
    
    function input($variable, $default = false) {
-      $post = filter_input(INPUT_POST, $variable);
-      if ($post) {
-         return $post;
+      $data = filter_input(INPUT_POST, $variable);
+      if ($data) {
+         return $data;
       }
-      $get = filter_input(INPUT_GET, $variable);
-      if ($get) {
-         return $get;
+      $data = filter_input(INPUT_GET, $variable);
+      if ($data) {
+         return $data;
       }
+      $input = file_get_contents('php://input');
+      $data = json_decode($input);
+      if (property_exists($data, $variable)) {
+         return $data->$variable; // XXX
+      }
+      /*
       global $___internal_input;
       if ($___internal_input === null) {
          $input = file_get_contents('php://input');
@@ -137,6 +156,7 @@ if (!isset($___mof_loaded)) {
       if ($___internal_input && property_exists($___internal_input, $variable)) {
          return $___internal_input->{$variable};
       }
+       */
       return $default;
    }
    
@@ -261,6 +281,14 @@ if (!isset($___mof_loaded)) {
       $now = date('d/m/Y H:i:s');
       fwrite($log, (is_array($message) || is_object($message)) ? print_r($message, true) : "$now: $message\n");
       fclose($log);
+   }
+
+   function id($size = 6) {
+      if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
+         return bin2hex(openssl_random_pseudo_bytes($size));
+      } else {
+         return bin2hex(random_bytes($size));
+      }
    }
 }
 
