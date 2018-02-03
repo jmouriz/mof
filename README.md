@@ -1,6 +1,6 @@
 # MOF
 
-MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es un pequeño archivo PHP (~7,2Kb) para que incluyas en tus proyectos en la etapa de fabricación de la maqueta. Incluye algunas funciones básicas que serán de utilidad para:
+MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es un pequeño archivo PHP (~12Kb) para que incluyas en tus proyectos en la etapa de fabricación de la maqueta. Incluye algunas funciones básicas que serán de utilidad para:
 
 - Cifrar y comparar contraseñas cifradas de forma más o menos segura (password).
 - Escribir y leer estructuras de datos complejas en archivos (store/restore).
@@ -15,6 +15,8 @@ MOF significa Mockup Outside Framework (Maqueta Fuera del Marco de Trabajo) y es
 - Contestar a los clientes cualquier tipo de contenido, por ejemplo XML (response).
 - Leer archivos especificando un contenido de contingencia (read).
 - Redireccionar (redirect).
+- Escribir mensajes y estructuras de datos con fecha y hora en el registro de sucesos (log).
+- Especificar la ruta donde se guardan los registros de sucesos (logs).
 - Subir archivos al servidor (upload).
 - Decirle al navegador que no use el caché (volatile).
 - Generar contraseñas únicas de largo variable (id).
@@ -53,11 +55,11 @@ Función de uso interno usada por `store` y `restore` para determinar el nombre 
 
 ### storage($path)
 
-Especifica que los archivos persistentes se deben guardar en la ruta especificada en `$path`.
+Especifica en `$path` la ruta donde se guardarán los archivos de datos persistentes.
 
 ### storage()
 
-Especifica que los archivos persistentes se deben guardar en la ruta que se encuentra donde está el archivo `mof.php`.
+Especifica que los archivos de datos persistentes se guardarán en la ruta donde se encuentra el archivo `mof.php`.
 
 ### store($variable)
 
@@ -174,6 +176,14 @@ Escribe `$data` con la forma adecuada para mostrar en el navegador.
 ### debug($data, true)
 
 Igual que `debug($data)` excepto que también termina el flujo inmediatamente.
+
+### logs($path)
+
+Especifica en `$path` la ruta donde se guardarán los archivos de registro de sucesos.
+
+### logs()
+
+Especifica que los archivos de registro de sucesos se guardarán en la ruta donde se encuentra el archivo `mof.php`.
 
 ### log($message)
 

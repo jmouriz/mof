@@ -37,12 +37,18 @@ if (!isset($___mof_loaded)) {
    }
 
    $path = __DIR__;
+   $logs = "$path/log";
    $storage = "$path/storage";
    $map = array();
 
    function storage($path = __DIR__) {
       global $storage;
       $storage = $path;
+   }
+
+   function logs($path = __DIR__) {
+      global $logs;
+      $logs = $path;
    }
   
    function filename($backtrace) {
@@ -62,13 +68,13 @@ if (!isset($___mof_loaded)) {
       $backtrace = debug_backtrace();
       $filename = filename($backtrace);
       if (!in_array($filename, $map) &&file_exists($filename)) {
-         die("Por seguridad no se puede guardar el archivo $filename porque existe una copia previa que nunca se restauró");
+         die("Por seguridad no se puede guardar el archivo $filename porque existe una copia previa que nunca se restauró.\n");
       }
       $data = serialize($variable);
       $raw = gzdeflate($data, 1);
       $success = file_put_contents($filename, $raw);
       if ($success === false) {
-         die("¡No se pudo escribir en el archivo $filename!");
+         die("¡No se pudo escribir en el archivo $filename!\n");
       }
    }
    
@@ -275,9 +281,9 @@ if (!isset($___mof_loaded)) {
    }
    
    function log($message) {
-      $path = __DIR__;
-      $file = "$path/log/mof.log";
-      $log = fopen($file, 'a') or die("¡No se pudo abrir el archivo $file!");
+      global $logs;
+      $file = "$logs/mof.log";
+      $log = fopen($file, 'a') or die("¡No se pudo abrir el archivo $file!\n");
       $now = date('d/m/Y H:i:s');
       fwrite($log, (is_array($message) || is_object($message)) ? print_r($message, true) : "$now: $message\n");
       fclose($log);
