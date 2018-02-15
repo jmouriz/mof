@@ -296,6 +296,20 @@ if (!isset($___mof_loaded)) {
          return bin2hex(random_bytes($size));
       }
    }
+
+   function starts($string, $needle) {
+      $length = strlen($needle);
+      return (substr($string, 0, $length) === $needle);
+   }
+
+   function ends($string, $needle) {
+      $length = strlen($needle);
+      return $length === 0 || (substr($string, -$length) === $needle);
+   }
+
+   function contains($string, $needle) {
+      return strpos($string, $needle) !== false;
+   }
 }
 
 ?>
